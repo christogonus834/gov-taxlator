@@ -1,23 +1,22 @@
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
+const express = require("express");
+const helmet = require("helmet");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
-const taxRoutes = require('./src/routers/taxRoutes');
+const taxRoutes = require("./src/routers/tax.routes");
+const vatRoutes = require("./src/routers/vat.routes");
 
 const app = express();
 
-app.use(helmet());
+// Middlewares
 app.use(cors());
+app.use(helmet());
+app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/tax', taxRoutes);
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({
-    success: false,
-    error: 'Internal Server Error'
-  });
-});
+// Routes
+app.use("/api/tax", taxRoutes);
+app.use("/api/vat", vatRoutes);
 
 module.exports = app;

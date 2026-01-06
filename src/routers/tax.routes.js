@@ -1,11 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { calculateTax } = require('../controllers/tax.controller');
+const { calculateTax } = require("../controllers/tax.controller");
 
-/**
- * POST /api/tax/calculate
- */
-router.post('/calculate', calculateTax);
+router.post("/calculate", calculateTax);
 
 module.exports = router;

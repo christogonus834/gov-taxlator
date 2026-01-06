@@ -41,7 +41,7 @@ const vatRequestSchema = Joi.object({
 }, 'VAT business rules validation');
 
 // POST /vat/calculate
-exports.calculateVAT = async (req, res, next) => {
+exports.calculateVat = async (req, res, next) => {
   try {
     // Validate request body
     const { value, error } = vatRequestSchema.validate(req.body, {
@@ -63,7 +63,7 @@ exports.calculateVAT = async (req, res, next) => {
     }
     
     // Delegate to service layer
-    const result = await vatService.calculateVAT(value);
+    const result = await vatService.calculateVat(value);
     
     // Add helpful context to response
     const response = {
@@ -93,9 +93,9 @@ exports.calculateVAT = async (req, res, next) => {
 };
 
 // POST /vat/calculate-reverse - Calculate amount before VAT (bonus endpoint)
-exports.calculateReverseVAT = async (req, res, next) => {
+exports.calculateReverseVat = async (req, res, next) => {
   try {
-    const reverseVATSchema = Joi.object({
+    const reverseVatSchema = Joi.object({
       totalAmount: Joi.number()
         .positive()
         .max(999999999999)
@@ -108,7 +108,7 @@ exports.calculateReverseVAT = async (req, res, next) => {
         })
     });
     
-    const { value, error } = reverseVATSchema.validate(req.body, {
+    const { value, error } = reverseVatSchema.validate(req.body, {
       abortEarly: false,
       stripUnknown: true
     });
@@ -126,7 +126,7 @@ exports.calculateReverseVAT = async (req, res, next) => {
       });
     }
     
-    const result = await vatService.calculateReverseVAT(value);
+    const result = await vatService.calculateReverseVat(value);
     
     res.status(200).json({
       success: true,
@@ -146,7 +146,7 @@ exports.calculateReverseVAT = async (req, res, next) => {
 };
 
 // GET /vat/rate - Get current VAT rate (bonus endpoint)
-exports.getVATRate = (req, res) => {
+exports.getVatRate = (req, res) => {
   res.status(200).json({
     success: true,
     data: {

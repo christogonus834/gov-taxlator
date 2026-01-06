@@ -1,30 +1,49 @@
 // src/services/vat.service.js
 
-const { VAT_RATE } = require('../utils/taxBands');
+const { VAT_RATE } = require("../utils/taxBands");
 
 /**
  * Calculate VAT
- * @param {Object} data
- * @param {number} data.amount - Amount subject to VAT
  */
-const calculateVAT = async ({ amount }) => {
-  if (amount <= 0) {
-    const error = new Error('Amount must be greater than zero');
-    error.statusCode = 400;
-    throw error;
-  }
+exports.calculateVat = async ({ salesAmount, purchaseAmount = 0 }) => {
+	if (salesAmount <= 0 && purchaseAmount <= 0) {
+		const error = new Error(
+			"Sales or purchase amount must be greater than zero"
+		);
+		error.statusCode = 400;
+		throw error;
+	}
 
-  const vatAmount = amount * VAT_RATE;
-  const totalWithVAT = amount + vatAmount;
+	const salesVat = salesAmount * VAT_RATE;
+	const purchaseVat = purchaseAmount * VAT_RATE;
 
-  return {
-    taxableAmount: amount,
-    vatRate: VAT_RATE,
-    vatAmount: Number(vatAmount.toFixed(2)),
-    totalAmount: Number(totalWithVAT.toFixed(2))
-  };
+	return {
+		vatRate: VAT_RATE,
+		salesAmount,
+		purchaseAmount,
+		salesVat: Number(salesVat.toFixed(2)),
+		purchaseVat: Number(purchaseVat.toFixed(2)),
+		netVat: Number((salesVat - purchaseVat).toFixed(2)),
+	};
 };
 
-module.exports = {
-  calculateVAT
+/**
+ * Reverse VAT calculation
+ */
+exports.calculateReverseVat = async ({ totalAmount }) => {
+	if (totalAmount <= 0) {
+		const error = new Error("Total amount must be greater than zero");
+		error.statusCode = 400;
+		throw error;
+	}
+
+	const baseAmount = totalAmount / (1 + VAT_RATE);
+	const vatAmount = totalAmount - baseAmount;
+
+	return {
+		vatRate: VAT_RATE,
+		baseAmount: Number(baseAmount.toFixed(2)),
+		vatAmount: Number(vatAmount.toFixed(2)),
+		totalAmount: Number(totalAmount.toFixed(2)),
+	};
 };
