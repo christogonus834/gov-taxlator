@@ -47,13 +47,13 @@ const TaxCalculationSchema = new mongoose.Schema(
       }
     },
 
-    turnover: {
-      type: Number,
-      min: 0,
-      required: function () {
-        return this.taxType === 'CIT';
-      }
-    },
+    // turnover: {
+    //   type: Number,
+    //   min: 0,
+    //   required: function () {
+    //     return this.taxType === 'CIT';
+    //   }
+    // },
 
     profit: {
       type: Number,

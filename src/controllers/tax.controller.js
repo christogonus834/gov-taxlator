@@ -3,12 +3,15 @@ const payeService = require("../services/paye.service");
 const vatService = require("../services/vat.service");
 const freelancerService = require("../services/freelancer.service");
 const pitService = require("../services/pit.service");
+const citService = require("../services/cit.service");
 
 /**
  * Validation schema
  */
 const taxRequestSchema = Joi.object({
-	taxType: Joi.string().valid("PAYE", "VAT", "FREELANCER", "PIT").required(),
+	taxType: Joi.string()
+		.valid("PAYE", "VAT", "FREELANCER", "PIT", "CIT")
+		.required(),
 
 	// PAYE & FREELANCER
 	grossIncome: Joi.number().positive().optional(),
@@ -19,6 +22,11 @@ const taxRequestSchema = Joi.object({
 
 	// VAT only
 	amount: Joi.number().positive().optional(),
+
+	// CIT
+	// turnover: Joi.number().positive().optional(),
+	profit: Joi.number().positive().optional(),
+	companySize: Joi.string().valid("SMALL", "MEDIUM", "LARGE").optional(),
 });
 
 /**
@@ -60,6 +68,14 @@ exports.calculateTax = async (req, res, next) => {
 				result = await pitService.calculatePIT({
 					grossIncome: value.grossIncome,
 					frequency: value.frequency,
+				});
+				break;
+
+			case "CIT":
+				result = await citService.calculateCIT({
+					// turnover: value.turnover,
+					profit: value.profit,
+					companySize: value.companySize,
 				});
 				break;
 
