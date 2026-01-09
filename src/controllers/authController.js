@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { signupSchema, signinSchema } = require('../middlewares/authValidator');
-const User = require('../models/userModels');
+const User = require('../models/authModels');
 const { doHash, doHashValidation } = require('../utils/hashing');
 const transport = require('../middlewares/sendMail');
 
