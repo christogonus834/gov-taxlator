@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static docs (PDFs)
-app.use("/docs", express.static(path.join(__dirname, "../public/docs")));
+app.use("/docs", express.static(path.join(__dirname, "/public/docs")));
 
 // Routes
 app.use("/api/auth", authRoutes);
