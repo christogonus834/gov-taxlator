@@ -1,19 +1,24 @@
-<!-- READ ME TO BE UPDATED PROPERLY -->
----
+# Taxlator API
 
-## ⚡ Features
+## Description
 
-- Calculate **PAYE** (with Consolidated Relief Allowance and progressive tax bands)  
-- Calculate **VAT** (7.5%)  
-- Store tax records in MongoDB  
-- Clean and modular backend architecture  
+Government tax & VAT calculation service.
 
----
+## Tech Stack
 
-## 🛠️ Installation
+Node.js, Express, MongoDB, JWT
 
-1. Clone the repository:
-```bash
-git clone <your-repo-url>
-cd tax-calculator
-npm install
+## Setup
+
+1. Clone repo
+2. npm install
+3. Create .env
+4. npm start
+
+## Deployment
+
+Hosted on Render
+
+## API Documentation
+
+[Download API Documentation](https://gov-taxlator-api.onrender.com/docs/API_DOCUMENTATION.pdf)

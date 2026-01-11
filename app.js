@@ -2,6 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const authRoutes = require("./src/routers/auth.routes");
 const taxRoutes = require("./src/routers/tax.routes");
@@ -25,6 +26,9 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static docs (PDFs)
+app.use("/docs", express.static(path.join(__dirname, "../public/docs")));
 
 // Routes
 app.use("/api/auth", authRoutes);
